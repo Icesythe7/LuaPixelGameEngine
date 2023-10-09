@@ -21,7 +21,6 @@ namespace PixelGameEngine_wrapper {
 
 		~LuaWrapper() override {
 			lua.reset();
-			printf("Released lua state from module\n");
 		}
 
 		void PrintConsole(const std::string& msg, const olc::Key exit_key, const bool suspend) {
