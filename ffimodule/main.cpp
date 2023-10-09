@@ -2,8 +2,8 @@
 
 namespace PixelGameEngine_wrapper {
 
-	void open_engine(sol::this_state L) {
-		lua = std::make_shared<sol::state_view>(L);
+	void open_engine(sol::this_state L) { 
+		lua = std::make_unique<sol::state_view>(L);
 
 		// Globals 
 		lua->set("PixelF", &olc::PixelF);

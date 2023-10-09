@@ -2023,10 +2023,10 @@ namespace olc
 		platform->StartSystemEventLoop();
 
 		// Wait for thread to be exited
-		t.join();
+		t.join(); // <== wait here until created thread dies
 
 		if (platform->ApplicationCleanUp() != olc::OK) return olc::FAIL;
-
+		printf("Returned to Start\n");
 		return olc::OK;
 	}
 #endif

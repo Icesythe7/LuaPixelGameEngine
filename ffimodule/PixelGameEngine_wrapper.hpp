@@ -9,7 +9,7 @@ extern "C" {
 	struct lua_State;
 }
 
-inline std::shared_ptr<sol::state_view> lua;
+inline std::unique_ptr<sol::state_view> lua;
 
 namespace PixelGameEngine_wrapper {
 
@@ -17,6 +17,11 @@ namespace PixelGameEngine_wrapper {
 	public:
 		explicit LuaWrapper(const std::string& app_name) {
 			sAppName = app_name;
+		}
+
+		~LuaWrapper() override {
+			lua.reset();
+			printf("Released lua state from module\n");
 		}
 
 		void PrintConsole(const std::string& msg, const olc::Key exit_key, const bool suspend) {
