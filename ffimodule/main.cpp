@@ -2,7 +2,7 @@
 
 namespace PixelGameEngine_wrapper {
 
-	void open_engine(sol::this_state L) { 
+	void open_engine(sol::this_state L) {
 		lua = std::make_unique<sol::state_view>(L);
 
 		// Globals 
@@ -165,18 +165,18 @@ namespace PixelGameEngine_wrapper {
 			{"NORMAL", olc::Sprite::Mode::NORMAL},
 			{"PERIODIC", olc::Sprite::Mode::PERIODIC},
 			{"CLAMP", olc::Sprite::Mode::CLAMP},
-			});
+		});
 
 		lua->new_enum<olc::Sprite::Flip>("SpriteFlip", {
 			{"NONE", olc::Sprite::Flip::NONE},
 			{"HORIZ", olc::Sprite::Flip::HORIZ},
 			{"VERT", olc::Sprite::Flip::VERT},
-			});
+		});
 
 		lua->new_usertype<LuaWrapper>("PixelGameEngine",
 			sol::constructors<LuaWrapper(const std::string&)>(),
 #define FIELD(x) #x, &LuaWrapper::x
-			FIELD(PrintConsole),
+			FIELD(PrintConsole), // custom
 			FIELD(Construct),
 			FIELD(SetScreenSize),
 			FIELD(Start),
@@ -238,12 +238,49 @@ namespace PixelGameEngine_wrapper {
 			FIELD(DrawPartialSprite),
 			FIELD(SetDecalMode),
 			FIELD(SetDecalStructure),
-
-
+			//FIELD(DrawPartialDecal), //sigh overloads
+			//FIELD(DrawPartialDecal),
+			FIELD(DrawDecal),
+			FIELD(DrawExplicitDecal),
+			//FIELD(DrawPolygonDecal),
+			//FIELD(DrawPolygonDecal),
+			//FIELD(DrawPolygonDecal),
+			//FIELD(DrawPolygonDecal),
+			FIELD(DrawLineDecal),
+			FIELD(DrawRectDecal),
+			FIELD(FillRectDecal),
+			FIELD(GradientFillRectDecal),
+			FIELD(DrawRotatedDecal),
+			FIELD(DrawPartialRotatedDecal),
+			//FIELD(DrawWarpedDecal),
+			//FIELD(DrawWarpedDecal),
+			//FIELD(DrawWarpedDecal),
+			//FIELD(DrawPartialWarpedDecal),
+			//FIELD(DrawPartialWarpedDecal),
+			FIELD(DrawStringDecal),
+			FIELD(DrawStringPropDecal),
+			FIELD(DrawRotatedStringDecal),
+			FIELD(DrawRotatedStringPropDecal),
+			FIELD(GetTextSize),
 			FIELD(DrawStringV),
 			FIELD(DrawString),
+			FIELD(GetTextSizeProp),
+			FIELD(DrawStringPropV),
+			FIELD(DrawStringProp),
 			FIELD(SetPixelMode),
-			FIELD(ConsoleShow)
+			FIELD(GetPixelMode),
+			FIELD(SetPixelMode2),
+			FIELD(ConsoleOut),
+			FIELD(IsConsoleShowing),
+			FIELD(ConsoleShow),
+			FIELD(ConsoleClear),
+			FIELD(ConsoleCaptureStdOut),
+			FIELD(GetDroppedFiles),
+			FIELD(GetDroppedFilesPoint),
+			FIELD(TextEntryEnable),
+			FIELD(TextEntryGetString),
+			FIELD(TextEntryGetCursor),
+			FIELD(IsTextEntryEnabled)
 #undef FIELD
 		);
 
@@ -251,13 +288,13 @@ namespace PixelGameEngine_wrapper {
 			{"FAIL", olc::rcode::FAIL},
 			{"OK", olc::rcode::OK},
 			{"NO_FILE", olc::rcode::NO_FILE},
-			});
+		});
 
 		lua->new_enum<olc::Mouse>("Mouse", {
 			{"LEFT", olc::Mouse::LEFT_BUTTON},
 			{"RIGHT", olc::Mouse::RIGHT_BUTTON},
 			{"MIDDLE", olc::Mouse::MIDDLE_BUTTON},
-			});
+		});
 
 		lua->new_enum<olc::Key>("Key", {
 #define FIELD(x) {#x, olc::Key::x}

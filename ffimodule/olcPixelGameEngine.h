@@ -385,6 +385,7 @@ int main()
 #include <streambuf>
 #include <sstream>
 #include <chrono>
+#include <utility>
 #include <vector>
 #include <list>
 #include <thread>
@@ -1117,7 +1118,7 @@ namespace olc
 		olc::vi2d GetTextSize(const std::string& s);
 		// Draws a single line of text - non-monospaced
 		void DrawStringProp(int32_t x, int32_t y, const std::string& sText, Pixel col = olc::WHITE, uint32_t scale = 1);
-		void DrawStringProp(const olc::vi2d& pos, const std::string& sText, Pixel col = olc::WHITE, uint32_t scale = 1);
+		void DrawStringPropV(const olc::vi2d& pos, const std::string& sText, Pixel col = olc::WHITE, uint32_t scale = 1);
 		olc::vi2d GetTextSizeProp(const std::string& s);
 
 		// Decal Quad functions
@@ -2073,7 +2074,7 @@ namespace olc
 	{ if (layer < vLayers.size()) vLayers[layer].tint = tint; }
 
 	void PixelGameEngine::SetLayerCustomRenderFunction(uint8_t layer, std::function<void()> f)
-	{ if (layer < vLayers.size()) vLayers[layer].funcHook = f; }
+	{ if (layer < vLayers.size()) vLayers[layer].funcHook = std::move(f); }
 
 	std::vector<LayerDesc>& PixelGameEngine::GetLayers()
 	{ return vLayers; }
@@ -3407,7 +3408,7 @@ namespace olc
 		return size;
 	}
 
-	void PixelGameEngine::DrawStringProp(const olc::vi2d& pos, const std::string& sText, Pixel col, uint32_t scale)
+	void PixelGameEngine::DrawStringPropV(const olc::vi2d& pos, const std::string& sText, Pixel col, uint32_t scale)
 	{ DrawStringProp(pos.x, pos.y, sText, col, scale); }
 
 	void PixelGameEngine::DrawStringProp(int32_t x, int32_t y, const std::string& sText, Pixel col, uint32_t scale)
