@@ -95,6 +95,39 @@ namespace PixelGameEngine_wrapper {
 
 			return result.get<bool>();
 		}
+
+		void OnTextEntryComplete(const std::string& sText) override {
+			sol::optional<sol::function> destroy = (*lua)["OnTextEntryComplete"];
+			if (!destroy)
+				return;
+
+			const auto result = (*destroy)(sText);
+			if (!result.valid()) {
+				const sol::error err = result;
+				printf("[Error]: %s", err.what());
+				return;
+			}
+		}
+
+		bool OnConsoleCommand(const std::string& sCommand) override {
+			sol::optional<sol::function> destroy = (*lua)["OnConsoleCommand"];
+			if (!destroy)
+				return false;
+
+			const auto result = (*destroy)(sCommand);
+			if (!result.valid()) {
+				const sol::error err = result;
+				printf("[Error]: %s", err.what());
+				return false;
+			}
+
+			if (result.get_type() != sol::type::boolean) {
+				printf("[Error]: method 'OnConsoleCommand' must return a boolean\n");
+				return false;
+			}
+
+			return result.get<bool>();
+		}
 	};
 
 } // namespace PixelGameEngine_wrapper
