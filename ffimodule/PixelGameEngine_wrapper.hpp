@@ -105,7 +105,6 @@ namespace PixelGameEngine_wrapper {
 			if (!result.valid()) {
 				const sol::error err = result;
 				printf("[Error]: %s", err.what());
-				return;
 			}
 		}
 
