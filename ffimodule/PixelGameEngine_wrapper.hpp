@@ -128,7 +128,6 @@ namespace PixelGameEngine_wrapper {
 			return result.get<bool>();
 		}
 	};
-
 } // namespace PixelGameEngine_wrapper
 
 extern "C" MY_OBJECT_API int luaopen_LuaPixelGameEngine(lua_State * L);
